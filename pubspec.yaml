@@ -34,6 +34,18 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  
+  # Camera and image picker for capturing photos
+  image_picker: ^1.0.7
+  
+  # For saving generated card images
+  path_provider: ^2.1.2
+  
+  # For capturing widget as image
+  screenshot: ^2.1.0
+  
+  # For sharing cards
+  share_plus: ^7.2.1
 
 dev_dependencies:
   flutter_test:
