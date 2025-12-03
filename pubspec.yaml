@@ -42,10 +42,13 @@ dependencies:
   path_provider: ^2.1.2
   
   # For capturing widget as image
-  screenshot: ^2.1.0
+  screenshot: ^3.0.0
   
   # For sharing cards
   share_plus: ^7.2.1
+  
+  # For saving images to device gallery
+  image_gallery_saver: ^2.0.3
 
 dev_dependencies:
   flutter_test:

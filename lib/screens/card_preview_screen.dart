@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -35,22 +36,29 @@ class _CardPreviewScreenState extends State<CardPreviewScreen> {
       );
 
       if (imageBytes != null) {
-        final directory = await getApplicationDocumentsDirectory();
         final timestamp = DateTime.now().millisecondsSinceEpoch;
-        final filePath = '${directory.path}/battle_card_$timestamp.png';
-        final file = File(filePath);
-        await file.writeAsBytes(imageBytes);
+        final result = await ImageGallerySaver.saveImage(
+          imageBytes,
+          name: 'battle_card_$timestamp',
+          quality: 100,
+        );
+
+        final success = result['isSuccess'] == true;
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('Card saved successfully!'),
-              backgroundColor: Colors.green.shade700,
-              action: SnackBarAction(
-                label: 'Share',
-                textColor: Colors.white,
-                onPressed: () => _shareCard(filePath),
-              ),
+              content: Text(success
+                  ? 'カードを写真に保存しました'
+                  : 'カードの保存に失敗しました'),
+              backgroundColor: success ? Colors.green.shade700 : Colors.red,
+              action: success
+                  ? SnackBarAction(
+                      label: '共有',
+                      textColor: Colors.white,
+                      onPressed: () => _shareCard(),
+                    )
+                  : null,
             ),
           );
         }
@@ -59,7 +67,7 @@ class _CardPreviewScreenState extends State<CardPreviewScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to save card: $e'),
+            content: Text('カードの保存に失敗しました: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -100,18 +108,18 @@ class _CardPreviewScreenState extends State<CardPreviewScreen> {
 
       await Share.shareXFiles(
         [XFile(filePath)],
-        text: 'Check out my Battle Card: ${widget.card.name}!',
+        text: '私のバトルカード「${widget.card.name}」をチェック！',
       );
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to share card: $e'),
+            content: Text('カードの共有に失敗しました: $e'),
             backgroundColor: Colors.red,
           ),
         );
       }
-    } finally {
+    }finally {
       setState(() {
         _isSaving = false;
       });
@@ -124,7 +132,7 @@ class _CardPreviewScreenState extends State<CardPreviewScreen> {
       backgroundColor: Colors.grey.shade900,
       appBar: AppBar(
         title: const Text(
-          'Your Card',
+          'あなたのカード',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.amber.shade700,
@@ -134,7 +142,7 @@ class _CardPreviewScreenState extends State<CardPreviewScreen> {
           IconButton(
             onPressed: _isSaving ? null : () => _shareCard(),
             icon: const Icon(Icons.share),
-            tooltip: 'Share',
+            tooltip: '共有',
           ),
         ],
       ),
@@ -188,7 +196,7 @@ class _CardPreviewScreenState extends State<CardPreviewScreen> {
               ),
               const SizedBox(width: 8),
               const Text(
-                'Card Details',
+                'カード詳細',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -198,14 +206,14 @@ class _CardPreviewScreenState extends State<CardPreviewScreen> {
             ],
           ),
           const SizedBox(height: 12),
-          _buildDetailRow('Name', widget.card.name),
-          _buildDetailRow('Attribute', widget.card.attribute.displayName),
-          _buildDetailRow('Rarity', widget.card.rarityStars),
-          _buildDetailRow('Attack', widget.card.attack.toString()),
-          _buildDetailRow('Defense', widget.card.defense.toString()),
+          _buildDetailRow('名前', widget.card.name),
+          _buildDetailRow('属性', widget.card.attribute.displayName),
+          _buildDetailRow('レアリティ', widget.card.rarityStars),
+          _buildDetailRow('攻撃力', widget.card.attack.toString()),
+          _buildDetailRow('防御力', widget.card.defense.toString()),
           _buildDetailRow('HP', widget.card.hp.toString()),
           const Divider(color: Colors.grey),
-          _buildDetailRow('Ability', widget.card.ability.name),
+          _buildDetailRow('スキル', widget.card.ability.name),
           Text(
             widget.card.ability.description,
             style: TextStyle(
@@ -264,7 +272,7 @@ class _CardPreviewScreenState extends State<CardPreviewScreen> {
               child: OutlinedButton.icon(
                 onPressed: () => Navigator.pop(context),
                 icon: const Icon(Icons.refresh),
-                label: const Text('New Card'),
+                label: const Text('新しいカード'),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.amber.shade700,
                   side: BorderSide(color: Colors.amber.shade700, width: 2),
@@ -289,7 +297,7 @@ class _CardPreviewScreenState extends State<CardPreviewScreen> {
                         ),
                       )
                     : const Icon(Icons.save_alt),
-                label: Text(_isSaving ? 'Saving...' : 'Save Card'),
+                label: Text(_isSaving ? '保存中...' : 'カードを保存'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.amber.shade700,
                   foregroundColor: Colors.white,

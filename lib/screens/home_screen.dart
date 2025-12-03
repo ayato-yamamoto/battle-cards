@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to capture image: $e'),
+            content: Text('画像の撮影に失敗しました: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to pick image: $e'),
+            content: Text('画像の選択に失敗しました: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_nameController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Please enter a card name'),
+          content: Text('カード名を入力してください'),
           backgroundColor: Colors.orange,
         ),
       );
@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                'Select Image Source',
+                '画像を選択',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   _buildImageSourceOption(
                     icon: Icons.camera_alt,
-                    label: 'Camera',
+                    label: 'カメラ',
                     onTap: () {
                       Navigator.pop(context);
                       _pickImageFromCamera();
@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   _buildImageSourceOption(
                     icon: Icons.photo_library,
-                    label: 'Gallery',
+                    label: 'ギャラリー',
                     onTap: () {
                       Navigator.pop(context);
                       _pickImageFromGallery();
@@ -195,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.grey.shade900,
       appBar: AppBar(
         title: const Text(
-          'Battle Card Creator',
+          'バトルカード作成',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.amber.shade700,
@@ -208,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text(
-              'Create Your Card',
+              'カードを作成',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
@@ -218,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Take a photo and generate a unique trading card!',
+              '写真を撮ってオリジナルのトレーディングカードを作ろう！',
               style: TextStyle(
                 color: Colors.grey.shade400,
                 fontSize: 14,
@@ -229,7 +229,6 @@ class _HomeScreenState extends State<HomeScreen> {
             GestureDetector(
               onTap: _showImageSourceDialog,
               child: Container(
-                height: 200,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade800,
                   borderRadius: BorderRadius.circular(16),
@@ -238,60 +237,63 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 2,
                   ),
                 ),
-                child: _selectedImage != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(14),
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            Image.file(
-                              _selectedImage!,
-                              fit: BoxFit.cover,
-                            ),
-                            Positioned(
-                              top: 8,
-                              right: 8,
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _selectedImage = null;
-                                  });
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.red,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Icon(
-                                    Icons.close,
-                                    color: Colors.white,
-                                    size: 20,
+                child: AspectRatio(
+                  aspectRatio: 300 / 420,
+                  child: _selectedImage != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(14),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              Image.file(
+                                _selectedImage!,
+                                fit: BoxFit.cover,
+                              ),
+                              Positioned(
+                                top: 8,
+                                right: 8,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedImage = null;
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(4),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.red,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
                                   ),
                                 ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.add_a_photo,
+                              size: 60,
+                              color: Colors.amber.shade700,
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              'タップして写真を追加',
+                              style: TextStyle(
+                                color: Colors.grey.shade400,
+                                fontSize: 16,
                               ),
                             ),
                           ],
                         ),
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.add_a_photo,
-                            size: 60,
-                            color: Colors.amber.shade700,
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'Tap to add photo',
-                            style: TextStyle(
-                              color: Colors.grey.shade400,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
+                ),
               ),
             ),
             const SizedBox(height: 24),
@@ -299,9 +301,9 @@ class _HomeScreenState extends State<HomeScreen> {
               controller: _nameController,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                labelText: 'Card Name',
+                labelText: 'カード名',
                 labelStyle: TextStyle(color: Colors.grey.shade400),
-                hintText: 'Enter your card name',
+                hintText: 'カード名を入力',
                 hintStyle: TextStyle(color: Colors.grey.shade600),
                 filled: true,
                 fillColor: Colors.grey.shade800,
@@ -341,7 +343,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(width: 8),
                       const Text(
-                        'Random Stats',
+                        'ランダムステータス',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -352,11 +354,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Your card will receive random:\n'
-                    '• Attack, Defense, and HP stats\n'
-                    '• Element attribute (Fire, Water, Earth, Wind, Light, Dark)\n'
-                    '• Special ability\n'
-                    '• Rarity level (1-5 stars)',
+                    'カードには以下がランダムで付与されます：\n'
+                    '・攻撃力、防御力、HPのステータス\n'
+                    '・属性（炎、水、地、風、光、闇）\n'
+                    '・特殊スキル\n'
+                    '・レアリティ（1〜5つ星）',
                     style: TextStyle(
                       color: Colors.grey.shade400,
                       fontSize: 13,
@@ -392,7 +394,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Icon(Icons.auto_awesome, size: 24),
                         SizedBox(width: 8),
                         Text(
-                          'Generate Card',
+                          'カードを生成',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
