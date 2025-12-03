@@ -46,10 +46,10 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs camera access to capture photos for your trading cards.</string>
+	<string>トレーディングカードの写真を撮影するためにカメラへのアクセスが必要です。</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs photo library access to select images for your trading cards.</string>
+	<string>トレーディングカードの画像を選択するために写真ライブラリへのアクセスが必要です。</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app needs permission to save your trading cards to the photo library.</string>
+	<string>トレーディングカードを写真ライブラリに保存するために許可が必要です。</string>
 </dict>
 </plist>

@@ -108,6 +108,26 @@ class TradingCardWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Container(
+            width: 28,
+            height: 28,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.amber.shade700,
+              border: Border.all(color: Colors.amber.shade300, width: 2),
+            ),
+            child: Center(
+              child: Text(
+                '${card.cardCost}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
               card.name,
@@ -200,8 +220,8 @@ class TradingCardWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildStatItem('ATK', card.attack, Colors.red.shade400),
-              _buildStatItem('DEF', card.defense, Colors.blue.shade400),
+              _buildStatItem('攻撃', card.attack, Colors.red.shade400),
+              _buildStatItem('防御', card.defense, Colors.blue.shade400),
               _buildStatItem('HP', card.hp, Colors.green.shade400),
             ],
           ),
@@ -271,7 +291,7 @@ class TradingCardWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
-                    'Cost: ${card.ability.cost}',
+                    'コスト: ${card.ability.cost}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 9,

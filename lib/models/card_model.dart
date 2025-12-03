@@ -13,17 +13,17 @@ extension CardAttributeExtension on CardAttribute {
   String get displayName {
     switch (this) {
       case CardAttribute.fire:
-        return 'Fire';
+        return '炎';
       case CardAttribute.water:
-        return 'Water';
+        return '水';
       case CardAttribute.earth:
-        return 'Earth';
+        return '地';
       case CardAttribute.wind:
-        return 'Wind';
+        return '風';
       case CardAttribute.light:
-        return 'Light';
+        return '光';
       case CardAttribute.dark:
-        return 'Dark';
+        return '闇';
     }
   }
 
@@ -80,63 +80,63 @@ class BattleCard {
 
   static final List<CardAbility> _abilities = [
     const CardAbility(
-      name: 'Fireball',
-      description: 'Deal 30 damage to enemy',
+      name: 'ファイアボール',
+      description: '敵に30ダメージを与える',
       cost: 2,
     ),
     const CardAbility(
-      name: 'Shield',
-      description: 'Increase defense by 20',
+      name: 'シールド',
+      description: '防御力を20上昇させる',
       cost: 1,
     ),
     const CardAbility(
-      name: 'Heal',
-      description: 'Restore 25 HP',
+      name: 'ヒール',
+      description: 'HPを25回復する',
       cost: 2,
     ),
     const CardAbility(
-      name: 'Thunder Strike',
-      description: 'Deal 40 damage, 20% stun chance',
+      name: 'サンダーストライク',
+      description: '40ダメージ、20%でスタン',
       cost: 3,
     ),
     const CardAbility(
-      name: 'Poison',
-      description: 'Deal 10 damage per turn for 3 turns',
+      name: 'ポイズン',
+      description: '3ターン毎ターン10ダメージ',
       cost: 2,
     ),
     const CardAbility(
-      name: 'Rage',
-      description: 'Increase attack by 25',
+      name: 'レイジ',
+      description: '攻撃力を25上昇させる',
       cost: 2,
     ),
     const CardAbility(
-      name: 'Ice Blast',
-      description: 'Deal 25 damage, slow enemy',
+      name: 'アイスブラスト',
+      description: '25ダメージ、敵を減速',
       cost: 2,
     ),
     const CardAbility(
-      name: 'Earthquake',
-      description: 'Deal 35 damage to all enemies',
+      name: 'アースクエイク',
+      description: '全ての敵に35ダメージ',
       cost: 4,
     ),
     const CardAbility(
-      name: 'Wind Slash',
-      description: 'Deal 20 damage, attack twice',
+      name: 'ウィンドスラッシュ',
+      description: '20ダメージを2回与える',
       cost: 3,
     ),
     const CardAbility(
-      name: 'Dark Curse',
-      description: 'Reduce enemy attack by 15',
+      name: 'ダークカース',
+      description: '敵の攻撃力を15減少させる',
       cost: 2,
     ),
     const CardAbility(
-      name: 'Holy Light',
-      description: 'Deal 30 damage to dark enemies',
+      name: 'ホーリーライト',
+      description: '闇属性の敵に30ダメージ',
       cost: 2,
     ),
     const CardAbility(
-      name: 'Drain Life',
-      description: 'Deal 20 damage, heal same amount',
+      name: 'ドレインライフ',
+      description: '20ダメージを与え同量回復',
       cost: 3,
     ),
   ];
@@ -173,5 +173,14 @@ class BattleCard {
 
   String get rarityStars {
     return '★' * rarity + '☆' * (5 - rarity);
+  }
+
+  int get cardCost {
+    final statScore = attack + defense + (hp / 2).round();
+    final rarityBonus = rarity * 20;
+    final abilityBonus = ability.cost * 10;
+    final totalScore = statScore + rarityBonus + abilityBonus;
+    final rawCost = (totalScore / 60).round();
+    return rawCost.clamp(1, 12);
   }
 }
