@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
+import 'screens/start_screen.dart';
 
 void main() {
   runApp(const BattleCardApp());
@@ -15,12 +15,12 @@ class BattleCardApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.amber,
+          seedColor: Colors.purple,
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: const StartScreen(),
     );
   }
 }

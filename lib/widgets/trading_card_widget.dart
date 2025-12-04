@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../constants/app_constants.dart';
 import '../models/card_model.dart';
 
 class TradingCardWidget extends StatelessWidget {
@@ -174,25 +175,28 @@ class TradingCardWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.black,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.amber.shade400, width: 2),
+          border: Border.all(color: AppColors.cardBorder, width: 2),
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(6),
-          child: card.imagePath != null
-              ? Image.file(
-                  File(card.imagePath!),
-                  fit: BoxFit.cover,
-                )
-              : Container(
-                  color: Colors.grey.shade800,
-                  child: const Center(
-                    child: Icon(
-                      Icons.image,
-                      size: 60,
-                      color: Colors.grey,
+          child: AspectRatio(
+            aspectRatio: kIllustrationAspectRatio,
+            child: card.imagePath != null
+                ? Image.file(
+                    File(card.imagePath!),
+                    fit: BoxFit.cover,
+                  )
+                : Container(
+                    color: Colors.grey.shade800,
+                    child: const Center(
+                      child: Icon(
+                        Icons.image,
+                        size: 60,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
-                ),
+          ),
         ),
       ),
     );
